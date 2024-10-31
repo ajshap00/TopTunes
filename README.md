@@ -77,3 +77,36 @@ SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 DATABASE_URL=postgresql://user:password@hostname:port/database
+
+Usage
+Once the development server is running, you can access the application at http://127.0.0.1:8000/. Use the admin interface at http://127.0.0.1:8000/admin/ to manage the application data.
+
+Contributing
+We welcome contributions to the Goat Project! To contribute, follow these steps:
+
+Fork the repository.
+Create a new branch for your feature or bugfix.
+Make your changes and commit them with a descriptive message.
+Push your changes to your fork.
+Create a pull request to the main repository.
+License
+This project is licensed under the MIT License. See the LICENSE file for more details.
+
+Acknowledgements
+Django
+Spotify API
+BeautifulSoup
+Python Decouple
+Gspread
+More Itertools
+OAuth2Client
+NumPy
+Requests
+Scikit-Learn
+Spotipy
+PyMySQL
+Gunicorn
+Uvicorn
+DJ-Database-URL
+Psycopg2
+Whitenoise
