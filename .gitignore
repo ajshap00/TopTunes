@@ -14,7 +14,6 @@ db.sqlite3
 
 # Static files
 /staticfiles/
-*.css
 *.js
 
 # IDE configurations
