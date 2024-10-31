@@ -120,8 +120,7 @@ input[type="text"] {
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    pointer-events: auto; /* Enable click */
-    cursor: pointer; /* Show pointer on hover */
+    pointer-events: none;
 }
 
 #search-input {
@@ -131,15 +130,6 @@ input[type="text"] {
     transition: border-color 0.2s;
     font-family: 'Programme';
     color: #000;
-    display: none; /* Hide on mobile initially */
-    width: 100%; /* Full width for search bar */
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Add this line */
-}
-
-#search-input.active {
-    display: block; /* Show when activated */
-    opacity: 1; /* Ensure it fades in */
-    transform: translateY(0); /* Optional: Add slide-in effect */
 }
 
 #search-input:focus {
@@ -191,18 +181,20 @@ input[type="text"] {
     background-color: #f0f0f0;
 }
 
-/* Mobile styles */
-@media (max-width: 600px) {
-    #search-input {
-        position: absolute;
-        top: 50px; /* Position it below the nav */
-        left: 0;
-        width: 100%; /* Full width when displayed */
-        z-index: 1001; /* Ensure it appears above other elements */
+@media (max-width: 768px) {
+    .search-container {
+        width: 80%; /* Scale down width */
+        left: 50%; /* Center the container */
+        transform: translateX(-50%); /* Maintain centering */
     }
 
-    .search-container {
-        width: 100%; /* Full width for mobile */
-        left: 0; /* Align to the left */
+    #search-input {
+        font-size: 14px; /* Smaller font size */
+        padding: 5px; /* Adjust padding */
+    }
+
+    .search-icon {
+        width: 18px; /* Scale down icon size */
+        height: 18px; /* Scale down icon size */
     }
 }

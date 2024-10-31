@@ -18,11 +18,13 @@
 
 {% block search %}
 <div class="search-container">
-    <div class="search-input-container">
-        <input type="text" id="search-input" name="query" placeholder="Search artists..." required oninput="searchArtists()">
-        <img src="{% static 'poll/images/glass.png' %}" alt="Search" class="search-icon" id="search-icon">
-    </div>
-    <div id="search-results" class="dropdown-content"></div>
+    <form method="get" action="{% url 'poll:search' %}" class="search-form">
+        <div class="search-input-container">
+            <input type="text" id="search-input" name="query" placeholder="Search artists..." required oninput="searchArtists()">
+            <img src="{% static 'poll/images/glass.png' %}" alt="Search" class="search-icon">
+        </div>
+        <div id="search-results" class="dropdown-content"></div>
+    </form>
 </div>
 {% endblock %}
 
@@ -40,14 +42,14 @@
         async function searchArtists() {
             const query = document.getElementById('search-input').value;
             const resultsContainer = document.getElementById('search-results');
-    
+
             if (query.length > 0) {
                 try {
                     const response = await fetch(`/poll/search/?query=${encodeURIComponent(query)}`);
                     const data = await response.json();
-    
+
                     resultsContainer.innerHTML = '';
-    
+
                     if (data.artists.length > 0) {
                         data.artists.forEach(artist => {
                             const div = document.createElement('div');
@@ -70,18 +72,6 @@
                 resultsContainer.style.display = 'none';
             }
         }
-    
-        // Toggle search input on mobile
-        document.getElementById('search-icon').addEventListener('click', function() {
-            const searchInput = document.getElementById('search-input');
-            searchInput.classList.toggle('active'); // Toggle the active class
-    
-            // Optional: Focus the input when it becomes visible
-            if (searchInput.classList.contains('active')) {
-                searchInput.focus();
-            }
-        });
-    
         document.addEventListener('click', (event) => {
             const resultsContainer = document.getElementById('search-results');
             if (!event.target.closest('.search-form')) {
@@ -89,7 +79,6 @@
             }
         });
     </script>
-    
     
 </body>
 </html>
