@@ -14,4 +14,4 @@ jobs:
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
-        echo ${{secrets.SECRET_KEY}} | sed 's/./& /g'
+        echo ${{secrets.SECRET_KEY}}
