@@ -32,7 +32,7 @@ jobs:
       - name: Install Dependencies
         run: |
           echo "Installing dependencies..."
-          pip install -r /requirements.txt
+          pip install -r Goat/requirements.txt
 
       - name: Run Script
         run: |
