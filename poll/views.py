@@ -24,28 +24,34 @@ def search_results(request):
     return JsonResponse({'artists': artist_data})
 
 
+from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponse
+from django.db import IntegrityError
+from .models import Artist, Vote
+
 def vote_page(request):
     if request.method == "POST":
         artist_id = request.POST.get('artist_id')
         voter_ip = request.META.get('REMOTE_ADDR')
 
+        # Check if the voter has already voted for this artist
         existing_vote = Vote.objects.filter(voter_ip=voter_ip).first()
-
         if existing_vote:
             return redirect('poll:results')
-        else:
-            try:
-                artist = get_object_or_404(Artist, id=artist_id)
-                vote = Vote(artist=artist, voter_ip=voter_ip)
-                vote.save()
 
-                artist.votes += 1
-                artist.save()
+        try:
+            artist = get_object_or_404(Artist, id=artist_id)
+            vote = Vote(artist=artist, voter_ip=voter_ip)
+            vote.save()
 
-                return redirect('poll:results')
-            except IntegrityError:
-                return HttpResponse("Error recording vote.")
+            artist.votes += 1
+            artist.save()
 
+            return redirect('poll:results')
+        except IntegrityError:
+            return HttpResponse("Error recording vote.")
+
+    # Handle GET request: Render the voting page with artists
     artists = Artist.objects.all().order_by('name')
     return render(request, 'poll/vote.html', {'artists': artists})
 
