@@ -12,10 +12,6 @@ jobs:
 
     - name: Set up secret file
       env:
-        SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
-        SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
-        echo ${{secrets.SPOTIFY_CLIENT_ID}} | sed 's/./& /g'
-        echo ${{secrets.SPOTIFY_CLIENT_SECRET}} | sed 's/./& /g'
         echo ${{secrets.SECRET_KEY}} | sed 's/./& /g'
