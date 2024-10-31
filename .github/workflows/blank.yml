@@ -38,4 +38,4 @@ jobs:
       - name: Run Python Script
         run: |
           pip install requests
-          python updated_main.py
+          python data.py
