@@ -46,7 +46,7 @@ def vote_page(request):
             except IntegrityError:
                 return HttpResponse("Error recording vote.")
 
-    artists = Artist.objects.all()
+    artists = Artist.objects.all().order_by('name')
     return render(request, 'poll/vote.html', {'artists': artists})
 
 def voted_page(request):
