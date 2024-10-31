@@ -1,0 +1,99 @@
+{% extends "poll/template.html" %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'poll/artist_detail.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/2.1.0/vibrant.min.js"></script>
+{% endblock %}
+
+{% block search%}
+{% endblock %}
+
+{% block title %}{{ artist.name }}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="banner" id="banner"></div>
+
+    <div class="artist-image">
+        <img src="{{ artist.image_url }}" alt="Image of {{ artist.name }}" />
+    </div>
+
+    <div class="grid-container">
+        <div class="grid-item item1">
+            <h3 class="top">{{ artist.name }}</h3>
+            <p id="description">
+                {{ artist.description|truncatewords:50|safe }}
+                <span class="more" id="more">{{ artist.description|safe }}</span>
+                <span class="read-more" id="myLink" aria-expanded="false" onclick="toggleDescription()">Read more</span>
+            </p>
+        </div>
+        
+        <div class="grid-item item2">
+            <div class="table-section">
+                <h4>Top Songs:</h4>
+                <div class="scrollable-table">
+                    {% if topsongs %}
+                        <div>
+                            {% for track in topsongs %}
+                            <div class="grid2-songart">
+                                <img src="{{ track.album_art }}" alt="Cover art for {{ track.title }}" />
+                                <p>{{ track.title }} ({{ track.release_date|date:"Y" }})</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>No hot songs available.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="table-section">
+                <h4>Albums:</h4>
+                <div class="scrollable-table1">
+                    {% if albums %}
+                        <div>
+                            {% for album in albums %}
+                            <div class="grid2-albumart">
+                                <img src="{{ album.album_art }}" alt="Album art for {{ album.title }}" />
+                                <p>{{ album.title }} ({{ album.release_date|date:"Y" }})</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>No albums available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDescription() {
+        const moreText = document.getElementById("more");
+        const linkText = document.getElementById("myLink");
+
+        if (moreText.style.display === "none" || moreText.style.display === "") {
+            moreText.style.display = "inline";
+            linkText.innerHTML = "Read less";
+            linkText.setAttribute("aria-expanded", "true");
+        } else {
+            moreText.style.display = "none";
+            linkText.innerHTML = "Read more";
+            linkText.setAttribute("aria-expanded", "false");
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const bannerColor = "{{ artist.banner_color|default:'#333' }}";
+        const banner = document.getElementById('banner');
+        
+        banner.style.background = `linear-gradient(to bottom, ${bannerColor} 0%, rgba(0, 0, 0, 0.8) 100%)`;
+        
+        console.log("Banner color set to:", bannerColor);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,182 @@
+@font-face {
+    font-family: 'Custom';
+    src: url(font/mtvgravitygrotesk/MTVGravityGroteskBold.ttf);
+}
+
+@font-face {
+    font-family: 'CustomLight';
+    src: url(font/mtvgravitygrotesk/MTVGravityGrotesk.ttf);
+}
+
+@font-face {
+    font-family: 'Fabrik';
+    src: url(font/fabrik/fabrik.ttf);
+}
+
+@font-face {
+    font-family: 'Programme';
+    src: url(font/programme/download.ttf);
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: white;
+    background-attachment: fixed;
+}
+
+.topnav {
+    display: flex;
+    justify-content: center;
+    background: #000000;
+    overflow: hidden;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.topnav a {
+    flex: 0 0 auto;
+    display: block;
+    color: #ffffff;
+    font-family: 'Programme';
+    text-align: center;
+    padding: 12px 22px;
+    text-decoration: none;
+    font-size: 13px;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.topnav a::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: .5px;
+    left: 50%;
+    background-color: #ffffff;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.topnav a:hover::before {
+    width: 100%;
+    left: 0;
+}
+
+.topnav a.active::before {
+    width: 100%;
+    left: 0;
+}
+
+.topnav a.active {
+    color: #ffffff;
+}
+
+input[type="text"] {
+    width: 100%;
+}
+
+.votenow {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #FF5733;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: 'Programme';
+    padding: 12px;
+    text-align: center;
+    width: 100%;
+}
+
+.search-container {
+    position: absolute;
+    top: 10px;
+    left: 155px;
+    transform: translateX(-50%);
+    display: flex;
+    width: 300px;
+    z-index: 1001;
+}
+
+.search-input-container {
+    position: relative;
+    flex: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.search-icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+#search-input {
+    padding: 5px 0px 5px 5px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    font-family: 'Programme';
+    color: #000;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #FF5733;
+}
+
+#search-input::placeholder {
+    color: #000;
+    opacity: 1;
+}
+
+#search-input:focus::placeholder {
+    color: #808080;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    z-index: 3000;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    display: none;
+    margin-top: 0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.artist-image {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.dropdown-content div {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dropdown-content div:hover {
+    background-color: #f0f0f0;
+}
