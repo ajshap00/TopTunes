@@ -13,7 +13,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from io import BytesIO
 import colorsys
-from Goat import settings
+from TopTunes import settings
 
 CLIENT_ID = settings.SPOTIFY_CLIENT_ID
 CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET

@@ -49,7 +49,7 @@ class Command(BaseCommand):
 
         # Load your service account credentials
         creds = ServiceAccountCredentials.from_json_keyfile_name(
-            r'C:/Users/Alex Shapiro/OneDrive/Desktop/VSCODE PROJECTS/Goat/poll/secret_key/secret_key.json',
+            r'C:/Users/Alex Shapiro/OneDrive/Desktop/VSCODE PROJECTS/TopTunes/poll/secret_key/secret_key.json',
             scope
         )
 

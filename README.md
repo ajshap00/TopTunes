@@ -1,6 +1,6 @@
-# Goat Project
+# TopTunes Project
 
-Welcome to the Goat Project! This project is a Django-based web application that integrates with various APIs to provide a rich user experience. Below you'll find detailed information about the project, how to set it up, and how to contribute.
+Welcome to the TopTunes Project! This project is a Django-based web application that integrates with various APIs to provide a rich user experience. Below you'll find detailed information about the project, how to set it up, and how to contribute.
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ Welcome to the Goat Project! This project is a Django-based web application that
 
 ## Project Overview
 
-The Goat Project is a web application built with Django. It integrates with the Spotify API to fetch artist data, including top tracks and albums. The application also allows users to vote for their favorite artists and view the results.
+The TopTunes Project is a web application built with Django. It integrates with the Spotify API to fetch artist data, including top tracks and albums. The application also allows users to vote for their favorite artists and view the results.
 
 ## Features
 
@@ -26,7 +26,7 @@ The Goat Project is a web application built with Django. It integrates with the 
 
 ## Installation
 
-To get started with the Goat Project, follow these steps:
+To get started with the TopTunes Project, follow these steps:
 
 1. **Clone the repository:**
 
@@ -85,7 +85,7 @@ Once the development server is running, you can access the application at `http:
 
 ## Contributing
 
-We welcome contributions to the Goat Project! To contribute, follow these steps:
+We welcome contributions to the TopTunes Project! To contribute, follow these steps:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bugfix.
