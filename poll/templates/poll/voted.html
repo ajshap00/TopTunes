@@ -1,0 +1,48 @@
+{% extends "poll/template.html" %}
+{% load static %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'poll/voted.css' %}">
+{% endblock %}
+
+{% block title %}Voted{% endblock %}
+
+{% block content %}
+<body>
+    {% if has_voted %}
+        <h1>You have already voted for this poll!</h1>
+    {% else %}
+        <h1>Voting Results</h1>
+    {% endif %}
+
+    <div class="results-container">
+        <div class="table-container">
+            <h2>Top 50 Artists</h2>
+            <table>
+                <tbody class="item1">
+                    {% for artist, vote_count in top_artists %}
+                        <tr>
+                            <td>{{ artist.name }}: </td>
+                            <td>{{ vote_count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="table-container">
+            <h2>Last Artists</h2>
+            <table>
+                <tbody class="item2">
+                    {% for artist, vote_count in bot_artists %}
+                        <tr>
+                            <td>{{ artist.name }} -</td>
+                            <td>{{ vote_count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+{% endblock %}
