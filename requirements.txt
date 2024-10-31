@@ -12,4 +12,5 @@ spotipy
 PyMySQL
 gunicorn
 uvicorn
+dj-database-url
 
