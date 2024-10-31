@@ -51,6 +51,8 @@ def vote_page(request):
 
 def voted_page(request):
     top_artists, bot_artists = get_artist_votes()
+    top_artists = sorted(top_artists, key=lambda x: x[0].name)
+    bot_artists = sorted(bot_artists, key=lambda x: x[0].name)
     return render(request, 'poll/voted.html', {
         'top_artists': top_artists,
         'bot_artists': bot_artists
@@ -64,7 +66,7 @@ def get_artist_votes():
     return top_artists, bot_artists
 
 def artist_page(request):
-    artists = Artist.objects.all().order_by('name','-votes')
+    artists = Artist.objects.all().order_by('-votes','name')
     return render(request, 'poll/artist_page.html', {'artists': artists})
 
 def artist_detail(request, slug):
