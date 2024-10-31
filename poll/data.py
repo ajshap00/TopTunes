@@ -1,20 +1,22 @@
-import os
 import spotipy
+from spotipy import SpotifyException
 import time
 from spotipy.oauth2 import SpotifyClientCredentials
 import requests
 from bs4 import BeautifulSoup
 import re
 from more_itertools import chunked
+from django.core.files.base import ContentFile
 from django.utils.text import slugify
 from PIL import Image
 import numpy as np
 from sklearn.cluster import KMeans
 from io import BytesIO
 import colorsys
+from Goat import settings
 
-CLIENT_ID = os.environ.get("client_id")
-CLIENT_SECRET = os.environ.get("client_secret")
+CLIENT_ID = settings.SPOTIFY_CLIENT_ID
+CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
 
 def get_spotify_client():
     client_credentials_manager = SpotifyClientCredentials(
