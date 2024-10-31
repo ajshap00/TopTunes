@@ -31,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(" ")
 
 # Application definition
 INSTALLED_APPS = [
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'poll'  # Your app
+    'poll'
 ]
 
 MIDDLEWARE = [
@@ -75,6 +75,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Goat.wsgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# Database
 DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL)
 }
