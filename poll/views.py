@@ -29,31 +29,40 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 from .models import Artist, Vote
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+from django.db import IntegrityError
+from .models import Artist, Vote  # Ensure you import your models
+
 def vote_page(request):
     if request.method == "POST":
         artist_id = request.POST.get('artist_id')
-        voter_ip = request.META.get('REMOTE_ADDR')
 
-        # Check if the voter has already voted for this artist
-        existing_vote = Vote.objects.filter(voter_ip=voter_ip).first()
-        if existing_vote:
-            return redirect('poll:results')
+        # Check if artist_id is provided
+        if not artist_id:
+            return HttpResponse("No artist ID provided.")
 
         try:
+            # Fetch the artist or return a 404 if not found
             artist = get_object_or_404(Artist, id=artist_id)
-            vote = Vote(artist=artist, voter_ip=voter_ip)
+            
+            # Create and save a new Vote
+            vote = Vote(artist=artist)
             vote.save()
 
+            # Increment the artist's vote count
             artist.votes += 1
             artist.save()
 
+            # Redirect to the results page after successful voting
             return redirect('poll:results')
         except IntegrityError:
-            return HttpResponse("Error recording vote.")
+            return HttpResponse("Error recording vote. Please try again.")
 
     # Handle GET request: Render the voting page with artists
     artists = Artist.objects.all().order_by('name')
     return render(request, 'poll/vote.html', {'artists': artists})
+
 
 def voted_page(request):
     top_artists, bot_artists = get_artist_votes()
