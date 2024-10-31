@@ -9,5 +9,5 @@ numpy
 requests
 scikit-learn
 spotipy
-mysqlclient
+PyMySQL
 

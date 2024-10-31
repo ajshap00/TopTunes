@@ -2,6 +2,10 @@ import os
 from decouple import config
 from django.core.management.utils import get_random_secret_key
 from pathlib import Path
+import pymysql
+
+pymysql.install_as_MySQLdb()
+
 """
 Django settings for Goat project.
 
