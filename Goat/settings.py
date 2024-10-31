@@ -23,7 +23,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 DATABASE_URL = config('DATABASE_URL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
