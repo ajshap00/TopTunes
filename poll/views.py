@@ -64,7 +64,7 @@ def get_artist_votes():
     return top_artists, bot_artists
 
 def artist_page(request):
-    artists = Artist.objects.all().order_by('-votes')
+    artists = Artist.objects.all().order_by('name','-votes')
     return render(request, 'poll/artist_page.html', {'artists': artists})
 
 def artist_detail(request, slug):
