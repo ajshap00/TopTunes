@@ -31,8 +31,8 @@ To get started with the TopTunes Project, follow these steps:
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/yourusername/goat.git
-    cd goat
+    git clone https://github.com/yourusername/TopTunes.git
+    cd TopTunes
     ```
 
 2. **Create a virtual environment and activate it:**
