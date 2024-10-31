@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security settings
 SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(",")
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(" ")
 
 # Spotify credentials
 SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID')
