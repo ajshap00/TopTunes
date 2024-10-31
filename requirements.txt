@@ -1,9 +1,11 @@
-Django>=3.2,<4.0  # Adjust version as necessary
-requests>=2.26.0
-beautifulsoup4>=4.10.0
-spotipy>=2.19.0
-numpy>=1.21.0
-Pillow>=8.4.0
-scikit-learn>=0.24.2
-more-itertools>=8.10.0
-mysqlclient>=2.2.5
+Django>=5.1.2
+Pillow
+beautifulsoup4
+python-decouple
+more-itertools
+oauth2client
+gspread
+numpy
+requests
+scikit-learn
+spotipy
