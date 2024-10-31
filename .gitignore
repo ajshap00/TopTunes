@@ -1,0 +1,38 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+db.sqlite3
+/media
+
+# Static files
+/staticfiles/
+*.css
+*.js
+
+# IDE configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Python virtual environments
+venv/
+env/
+.venv/
+
+# Other temporary files
+*.tmp
+*.temp
+*.bak
+
+# OS-specific files
+.DS_Store  # macOS
+Thumbs.db  # Windows
