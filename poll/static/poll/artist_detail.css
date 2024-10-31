@@ -43,8 +43,9 @@ html, body {
 
 .artist-image {
     margin: 0 auto;
-    width: 300px;
-    height: 300px;
+    width: 80%; /* Use relative width for responsiveness */
+    max-width: 300px;
+    height: auto; /* Allow height to auto adjust */
     z-index: 2;
     position: relative;
     margin-top: -270px;
@@ -53,7 +54,7 @@ html, body {
 
 .artist-image img {
     width: 100%;
-    height: 100%;
+    height: auto; /* Maintain aspect ratio */
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #FF5733;
@@ -77,6 +78,7 @@ html, body {
     font-family: 'Custom', sans-serif;
     height: auto;
     margin-bottom: 10px;
+    width: 100%; /* Ensure it takes full width */
 }
 
 .grid-container img {
@@ -113,11 +115,12 @@ html, body {
     margin-top: 20px;
     gap: 20px;
     flex-direction: row;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
 .table-section {
     flex: 1;
-    min-width: 45%;
+    min-width: 200px; /* Use a smaller min-width */
     margin-bottom: 20px;
 }
 
@@ -149,8 +152,8 @@ html, body {
 }
 
 .grid2-albumart img, .grid2-songart img {
-    width: 150px;
-    height: 150px;
+    width: 100px; /* Adjust size for better scaling */
+    height: 100px; /* Adjust size for better scaling */
     object-fit: cover;
     margin-right: 10px;
 }
@@ -183,5 +186,14 @@ html, body {
 @media (max-width: 400px) {
     .banner {
         height: 200px;
+    }
+
+    .top {
+        font-size: 1.5em; /* Smaller font size for mobile */
+    }
+
+    .artist-image {
+        width: 90%; /* More responsive width */
+        margin-top: -200px; /* Adjust positioning */
     }
 }
