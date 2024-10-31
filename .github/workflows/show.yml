@@ -12,6 +12,6 @@ jobs:
 
       - name: Output secret key
         env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.SECRET_KEY }}
         run: |
-          echo "SECRET_KEY: $SECRET_KEY"
+          echo ${{secrets.AWS_ACCESS_KEY_ID}}
