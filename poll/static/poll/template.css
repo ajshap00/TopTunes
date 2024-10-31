@@ -182,12 +182,14 @@ input[type="text"] {
     background-color: #f0f0f0;
 }
 
+/* Add to your existing CSS */
 @media (max-width: 768px) {
     .search-container {
-        width: 80%; /* Scale down width */
-        left: 50%; /* Center the container */
-        transform: translateX(-50%); /* Maintain centering */
-        margin-top: 20px; /* Adjust for icon positioning */
+        width: 100%; /* Full width */
+        left: 0; /* Align to the left */
+        transform: translateX(0); /* Reset translation */
+        margin-top: 10px; /* Move the container down by 10px */
+        transition: margin-top 0.3s; /* Smooth transition */
     }
 
     .search-input-container {
@@ -201,18 +203,21 @@ input[type="text"] {
         font-size: 14px; /* Smaller font size */
         padding: 5px; /* Adjust padding */
         margin-left: 10px; /* Add space when showing */
-    }
-
-    .search-icon {
-        width: 24px; /* Slightly larger icon size for better touch target */
-        height: 24px; /* Slightly larger icon size for better touch target */
-        margin-top: 5px; /* Move the icon down a bit */
-        cursor: pointer; /* Change cursor to pointer */
+        width: 100%; /* Full width input */
     }
 
     /* Ensure the search input shows on mobile */
     .search-input-container.active #search-input {
         display: block; /* Show input when activated */
     }
+
+    /* Adjust icon position and size */
+    .search-icon {
+        width: 16px; /* Icon size */
+        height: 16px; /* Icon size */
+        margin-top: 5px; /* Move the icon down a bit */
+        cursor: pointer; /* Change cursor to pointer */
+    }
 }
+
 
