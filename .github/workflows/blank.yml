@@ -4,13 +4,10 @@ name: Run Python Script
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [ "main" ]
   workflow_dispatch:
 
 env:
@@ -20,25 +17,23 @@ env:
   DB_USER: ${{ secrets.DB_USER }}
   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
 
-      # Runs a set of commands using the runners shell
+      - name: Install Dependencies
+        run: |
+          echo "Installing dependencies..."
+          pip install Django>=3.2,<4.0 requests>=2.26.0 beautifulsoup4>=4.10.0 spotipy>=2.19.0 numpy>=1.21.0 Pillow>=8.4.0 scikit-learn>=0.24.2 more-itertools>=8.10.0
+
       - name: Run Script
         run: |
           python Goat/poll/data.py
