@@ -1,0 +1,16 @@
+.prompt{
+    font-size: 2.3em;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-family: 'Custom';
+}
+
+.subhead{
+    font-size: 1.2em;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-family: 'Custom';
+}

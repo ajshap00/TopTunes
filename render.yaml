@@ -1,21 +1,20 @@
 databases:
-  - name: kappapenisdb
+  - name: goatdb
     plan: free
-    databaseName: kappapenis
-    user: user
-    password: pass
+    databaseName: mysite
+    user: mysite
 
 services:
   - type: web
     plan: free
-    name: Goat
+    name: mysite
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn Goat.asgi:application -k uvicorn.workers.UvicornWorker"
+    startCommand: "python -m gunicorn mysite.asgi:application -k uvicorn.workers.UvicornWorker"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: kappapenisdb
+          name: mysitedb
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
