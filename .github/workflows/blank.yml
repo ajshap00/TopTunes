@@ -42,5 +42,5 @@ jobs:
       - name: Install Dependencies and Run Script
         run: |
           echo "Installing dependencies..."
-          pip install -r Goat/requirements.txt
-          python Goat/poll/data.py
+          pip install -r requirements.txt
+          python poll/data.py
