@@ -99,10 +99,10 @@ input[type="text"] {
 .search-container {
     position: absolute;
     top: 10px;
-    left: 155px; /* Position as per your layout */
+    left: 155px;
     transform: translateX(-50%);
     display: flex;
-    width: 300px; /* Default width */
+    width: 300px;
     z-index: 1001;
 }
 
@@ -120,7 +120,7 @@ input[type="text"] {
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    cursor: pointer; /* Make the icon clickable */
+    pointer-events: none;
 }
 
 #search-input {
@@ -130,7 +130,6 @@ input[type="text"] {
     transition: border-color 0.2s;
     font-family: 'Programme';
     color: #000;
-    display: block; /* Show input by default */
 }
 
 #search-input:focus {
@@ -182,42 +181,20 @@ input[type="text"] {
     background-color: #f0f0f0;
 }
 
-/* Add to your existing CSS */
 @media (max-width: 768px) {
     .search-container {
-        width: 100%; /* Full width */
-        left: 0; /* Align to the left */
-        transform: translateX(0); /* Reset translation */
-        margin-top: 10px; /* Move the container down by 10px */
-        transition: margin-top 0.3s; /* Smooth transition */
-    }
-
-    .search-input-container {
-        position: relative;
-        display: flex;
-        margin: 0;
+        width: 80%; /* Scale down width */
+        left: 50%; /* Center the container */
+        transform: translateX(-50%); /* Maintain centering */
     }
 
     #search-input {
-        display: none; /* Hidden by default on mobile */
         font-size: 14px; /* Smaller font size */
         padding: 5px; /* Adjust padding */
-        margin-left: 10px; /* Add space when showing */
-        width: 100%; /* Full width input */
     }
 
-    /* Ensure the search input shows on mobile */
-    .search-input-container.active #search-input {
-        display: block; /* Show input when activated */
-    }
-
-    /* Adjust icon position and size */
     .search-icon {
-        width: 16px; /* Icon size */
-        height: 16px; /* Icon size */
-        margin-top: 5px; /* Move the icon down a bit */
-        cursor: pointer; /* Change cursor to pointer */
+        width: 18px; /* Scale down icon size */
+        height: 18px; /* Scale down icon size */
     }
 }
-
-

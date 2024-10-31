@@ -39,6 +39,17 @@
 </div>
 
 <script>
+    function toggleSearchInput() {
+        const searchInput = document.getElementById('search-input');
+        if (searchInput.style.display === 'block') {
+            searchInput.style.display = 'none'; // Hide the input
+        } else {
+            searchInput.style.display = 'block'; // Show the input
+            searchInput.focus(); // Focus the input
+            document.querySelector('.search-container').style.marginLeft = '10px'; // Move the bar to the left on click
+        }
+    }
+
     async function searchArtists() {
         const query = document.getElementById('search-input').value;
         const resultsContainer = document.getElementById('search-results');
@@ -75,27 +86,11 @@
 
     document.addEventListener('click', (event) => {
         const resultsContainer = document.getElementById('search-results');
-        const searchInputContainer = document.querySelector('.search-input-container');
-        const searchInput = document.getElementById('search-input');
-
-        // Check if click is outside the search form and icon
         if (!event.target.closest('.search-form')) {
             resultsContainer.style.display = 'none';
-            searchInputContainer.classList.remove('active');
-        }
-    });
-
-    document.querySelector('.search-icon').addEventListener('click', () => {
-        const searchInputContainer = document.querySelector('.search-input-container');
-        const searchInput = document.getElementById('search-input');
-        searchInputContainer.classList.toggle('active');
-
-        if (searchInputContainer.classList.contains('active')) {
-            searchInput.focus(); // Focus on the search input when active
         }
     });
 </script>
-
 
 </body>
 </html>
