@@ -187,19 +187,32 @@ input[type="text"] {
         width: 80%; /* Scale down width */
         left: 50%; /* Center the container */
         transform: translateX(-50%); /* Maintain centering */
+        margin-top: 20px; /* Adjust for icon positioning */
+    }
+
+    .search-input-container {
+        position: relative;
+        display: flex;
+        margin: 0;
     }
 
     #search-input {
-        display: none; /* Hide input field by default on mobile */
+        display: none; /* Hidden by default on mobile */
+        font-size: 14px; /* Smaller font size */
+        padding: 5px; /* Adjust padding */
+        margin-left: 10px; /* Add space when showing */
     }
 
     .search-icon {
-        display: flex; /* Ensure the search icon is displayed */
-        width: 18px; /* Scale down icon size */
-        height: 18px; /* Scale down icon size */
+        width: 24px; /* Slightly larger icon size for better touch target */
+        height: 24px; /* Slightly larger icon size for better touch target */
+        margin-top: 5px; /* Move the icon down a bit */
+        cursor: pointer; /* Change cursor to pointer */
     }
 
-    .search-icon:hover {
-        cursor: pointer; /* Make the icon clickable */
+    /* Ensure the search input shows on mobile */
+    .search-input-container.active #search-input {
+        display: block; /* Show input when activated */
     }
 }
+

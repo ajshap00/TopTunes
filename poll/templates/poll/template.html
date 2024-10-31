@@ -20,7 +20,7 @@
 <div class="search-container">
     <form method="get" action="{% url 'poll:search' %}" class="search-form">
         <div class="search-input-container">
-            <input type="text" id="search-input" name="query" placeholder="Search artists..." required oninput="searchArtists()" style="display: none;">
+            <input type="text" id="search-input" name="query" placeholder="Search artists..." required oninput="searchArtists()">
             <img src="{% static 'poll/images/glass.png' %}" alt="Search" class="search-icon" onclick="toggleSearchInput()">
         </div>
         <div id="search-results" class="dropdown-content"></div>
@@ -46,6 +46,7 @@
         } else {
             searchInput.style.display = 'block'; // Show the input
             searchInput.focus(); // Focus the input
+            document.querySelector('.search-container').style.marginLeft = '10px'; // Move the bar to the left on click
         }
     }
 
