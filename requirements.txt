@@ -10,4 +10,6 @@ requests
 scikit-learn
 spotipy
 PyMySQL
+gunicorn
+uvicorn
 
