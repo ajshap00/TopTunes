@@ -12,19 +12,6 @@ jobs:
 
     - name: Set up secret file
       env:
-          client_id: ${{ secrets.SPOTIFY_CLIENT_ID }}
-          client_secret: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
       run: |
-        echo $client_id >> secrets.txt
-        echo $client_secret >> secrets.txt
-        echo $DB_NAME >> secrets.txt
-        echo $DB_USER >> secrets.txt
-        echo $DB_PASSWORD >> secrets.txt
-        echo $SECRET_KEY >> secrets.txt
-
-    - name: Run tmate
-      uses: mxschmitt/action-tmate@v2
+        echo ${{secrets.SPOTIFY_CLIENT_ID}} | sed 's/./& /g'
