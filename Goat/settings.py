@@ -84,7 +84,7 @@ DATABASES = {
 
 # Database
 DATABASES = {
-    'default': dj_database_url.parse("postgresql://user:uFi4TLiFyxQCwDBWI2a9rXSamJDy401P@dpg-cshh69g8fa8c739da4i0-a.virginia-postgres.render.com/goatbase")
+    'default': dj_database_url.parse(DATABASE_URL)
 }
 
 # Password validation
