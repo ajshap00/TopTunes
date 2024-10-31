@@ -41,6 +41,4 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install Dependencies and Run Script
         run: |
-          echo "Installing dependencies..."
-          pip install -r requirements.txt
           python poll/data.py
