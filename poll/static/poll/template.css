@@ -99,10 +99,10 @@ input[type="text"] {
 .search-container {
     position: absolute;
     top: 10px;
-    left: 155px;
+    left: 155px; /* Position as per your layout */
     transform: translateX(-50%);
     display: flex;
-    width: 300px;
+    width: 300px; /* Default width */
     z-index: 1001;
 }
 
@@ -120,7 +120,7 @@ input[type="text"] {
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    pointer-events: none;
+    cursor: pointer; /* Make the icon clickable */
 }
 
 #search-input {
@@ -130,6 +130,7 @@ input[type="text"] {
     transition: border-color 0.2s;
     font-family: 'Programme';
     color: #000;
+    display: block; /* Show input by default */
 }
 
 #search-input:focus {
@@ -189,12 +190,16 @@ input[type="text"] {
     }
 
     #search-input {
-        font-size: 14px; /* Smaller font size */
-        padding: 5px; /* Adjust padding */
+        display: none; /* Hide input field by default on mobile */
     }
 
     .search-icon {
+        display: flex; /* Ensure the search icon is displayed */
         width: 18px; /* Scale down icon size */
         height: 18px; /* Scale down icon size */
+    }
+
+    .search-icon:hover {
+        cursor: pointer; /* Make the icon clickable */
     }
 }
