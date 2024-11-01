@@ -28,6 +28,7 @@ env/
 .venv/
 
 # Other temporary files
+*.cache
 *.tmp
 *.temp
 *.bak
