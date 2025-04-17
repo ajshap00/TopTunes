@@ -21,7 +21,7 @@ class Command(BaseCommand):
         start_row = kwargs['start_row']
 
         # Define the fields available for updating
-        fields_to_update = {
+        field_names = {
             'name': 'Artist Name',
             'description': 'Description',
             'banner_color': 'Banner Color',
@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
         # Prompt user for fields to update
         print("Fields available for update:")
-        for key, value in fields_to_update.items():
+        for key, value in field_names.items():
             print(f"- {value}")
 
         fields_input = input("Enter the fields you want to update (comma-separated, e.g., name, description, banner_color, artist_img) or press Enter to update all: ")
@@ -39,31 +39,24 @@ class Command(BaseCommand):
         if fields_input:
             fields_to_update = set(field.strip() for field in fields_input.split(','))
         else:
-            fields_to_update = set(fields_to_update.keys())  # Update all fields if none specified
+            fields_to_update = set(field_names.keys())
 
-        # Set the scope for Google Sheets access
+        # Google Sheets auth
         scope = [
             "https://www.googleapis.com/auth/spreadsheets",
             "https://www.googleapis.com/auth/drive"
         ]
 
-        # Load your service account credentials
         creds = ServiceAccountCredentials.from_json_keyfile_name(
             r'C:/Users/Alex Shapiro/OneDrive/Desktop/VSCODE PROJECTS/TopTunes/poll/secret_key/secret_key.json',
             scope
         )
 
-        # Authenticate with Google Sheets
         client = gspread.authorize(creds)
-
-        # Open the Google Sheet
         spreadsheet = client.open("artist_data")
         worksheet = spreadsheet.sheet1
 
-        # Fetch all existing artists at once
-        existing_artists = {artist.slug: artist for artist in Artist.objects.all()}
-
-        # Initialize counters
+        # Counters
         artist_count = 0
         song_count = 0
         album_count = 0
@@ -74,26 +67,22 @@ class Command(BaseCommand):
                 continue
 
             artist_slug = slugify(artist_name)
+            artist = Artist.objects.filter(slug=artist_slug).first()
 
-            # Check if the artist already exists
-            artist = existing_artists.get(artist_slug)
-
-            # Fetch artist data only if necessary
-            artist_data = {}
-            if 'artist_img' in fields_to_update or 'banner_color' in fields_to_update:
-                try:
-                    artist_data = get_data(artist_name)
-                    if not artist_data:
-                        self.stdout.write(self.style.WARNING(f"No data found for artist '{artist_name}'. Skipping..."))
-                        continue
-                except requests.exceptions.HTTPError as e:
-                    self.stdout.write(self.style.ERROR(f"HTTP error occurred for artist '{artist_name}': {e}"))
+            # Fetch artist data (always needed for songs/albums)
+            try:
+                artist_data = get_data(artist_name)
+                if not artist_data:
+                    self.stdout.write(self.style.WARNING(f"No data found for artist '{artist_name}'. Skipping..."))
                     continue
-                except Exception as e:
-                    self.stdout.write(self.style.ERROR(f"Error fetching data for artist '{artist_name}': {e}"))
-                    continue
+            except requests.exceptions.HTTPError as e:
+                self.stdout.write(self.style.ERROR(f"HTTP error for artist '{artist_name}': {e}"))
+                continue
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f"Error fetching data for artist '{artist_name}': {e}"))
+                continue
 
-            # Prepare artist fields for creation or update
+            # Prepare artist fields
             artist_fields = {
                 'name': artist_name,
                 'slug': artist_slug,
@@ -101,60 +90,62 @@ class Command(BaseCommand):
                 'banner_color': artist_data.get('banner_color') if 'banner_color' in fields_to_update else None,
             }
 
-            # Only fetch the artist image and extract the dominant color if it's in the fields_to_update
+            # Extract dominant color from image if needed
             if 'artist_img' in fields_to_update:
                 artist_image_path = artist_data.get('artist_img')
                 if artist_image_path:
                     try:
-                        # Use the dominant color extraction from data.py
                         dominant_colors = get_dominant_colors(artist_image_path)
                         banner_color = dominant_colors[0] if dominant_colors.size > 0 else None
                         if banner_color is not None:
-                            artist_fields['banner_color'] = '#{:02x}{:02x}{:02x}'.format(*banner_color)  # Convert to hex
+                            artist_fields['banner_color'] = '#{:02x}{:02x}{:02x}'.format(*banner_color)
                         else:
-                            artist_fields['banner_color'] = None  # Set to None if no color found
+                            artist_fields['banner_color'] = None
                     except Exception as e:
-                        self.stdout.write(self.style.ERROR(f"Error extracting dominant color from image '{artist_image_path}': {e}"))
-                        artist_fields['banner_color'] = None  # Set to None if extraction fails
+                        self.stdout.write(self.style.ERROR(f"Error extracting color from '{artist_image_path}': {e}"))
+                        artist_fields['banner_color'] = None
                 else:
                     artist_fields['banner_color'] = None
 
-            # Create or update the artist
-            if artist:
-                # Update existing artist
-                for field in fields_to_update:
-                    if field in artist_fields and artist_fields[field] is not None:  # Only update specified fields
-                        setattr(artist, field, artist_fields[field])
-                        self.stdout.write(self.style.SUCCESS(f'Updated artist: {artist.name}, field: {field}, value: {artist_fields[field]}'))  # Log updated fields
-                artist.save()  # Save the updated artist instance
+            # Create or update artist
+            artist, created = Artist.objects.get_or_create(slug=artist_slug, defaults=artist_fields)
+
+            if created:
+                self.stdout.write(self.style.SUCCESS(
+                    f'Created new artist: {artist.name}, banner_color: {artist_fields.get("banner_color")}'
+                ))
+                artist_count += 1
             else:
-                # Create new artist
-                try:
-                    artist = Artist.objects.create(**artist_fields)
-                    self.stdout.write(self.style.SUCCESS(f'Created artist: {artist.name}'))
-                    existing_artists[artist_slug] = artist  # Add new artist to existing artists
-                    artist_count += 1
-                except Exception as e:
-                    self.stdout.write(self.style.ERROR(f"Error creating artist '{artist_name}': {e}"))
-                    continue  # Skip to the next artist
+                updated = False
+                for field in fields_to_update:
+                    value = artist_fields.get(field)
+                    current_value = getattr(artist, field, None)
+                    if value and (not current_value or current_value in ['', 'No description available']):
+                        setattr(artist, field, value)
+                        updated = True
+                        self.stdout.write(self.style.SUCCESS(
+                            f'Updated existing artist: {artist.name}, field: {field}, value: {value}'
+                        ))
 
-            # Prepare lists for bulk creation
+                if updated:
+                    artist.save()
+                else:
+                    self.stdout.write(self.style.WARNING(
+                        f"Artist '{artist.name}' already exists with sufficient data. Skipping update."
+                    ))
+
+            # Collect songs
             songs_to_create = []
-            albums_to_create = []
-
-            # Process songs
             for song in artist_data.get('topsongs', []):
                 title = song.get('title')
                 album_art = song.get('album_art')
-
-                # Set the release date
                 release_date = song.get('release_date', None)
-                if release_date and len(release_date) == 4:  # If it's just a year, e.g., "2016"
-                    release_date = f"{release_date}-01-01"  # Default to January 1st
-                elif not release_date or len(release_date) != 10:
-                    release_date = None  # Ensure release_date is None if invalid
 
-                # Check if the song already exists
+                if release_date and len(release_date) == 4:
+                    release_date = f"{release_date}-01-01"
+                elif not release_date or len(release_date) != 10:
+                    release_date = None
+
                 if title and not Song.objects.filter(title=title, artist=artist).exists():
                     songs_to_create.append(
                         Song(
@@ -165,17 +156,15 @@ class Command(BaseCommand):
                         )
                     )
 
-            # Process albums
+            # Collect albums
+            albums_to_create = []
             for album in artist_data.get('albums', []):
-                if isinstance(album, dict):  # Ensure we are dealing with a dictionary
-                    title = album.get('title')
+                if isinstance(album, dict):
+                    title = album.get('title', '')[:100]  # Truncate the title to 100 characters
                     release_date = album.get('release_date')
-
-                    # Set release_date to default to January 1st if just a year
                     if release_date and len(release_date) == 4:
                         release_date = f"{release_date}-01-01"
 
-                    # Check if the album already exists
                     if title and not Album.objects.filter(title=title, artist=artist).exists():
                         albums_to_create.append(
                             Album(
@@ -186,7 +175,7 @@ class Command(BaseCommand):
                             )
                         )
 
-            # Bulk create songs and albums if there are any to create
+            # Save songs and albums
             if songs_to_create:
                 Song.objects.bulk_create(songs_to_create)
                 song_count += len(songs_to_create)
@@ -195,5 +184,6 @@ class Command(BaseCommand):
                 Album.objects.bulk_create(albums_to_create)
                 album_count += len(albums_to_create)
 
-        self.stdout.write(self.style.SUCCESS('Successfully populated artist data'))
-        self.stdout.write(self.style.SUCCESS(f'Total Artists: {artist_count}, Songs: {song_count}, Albums: {album_count}'))
+        self.stdout.write(self.style.SUCCESS('✅ Done populating artist data'))
+        self.stdout.write(self.style.SUCCESS(f'Total Artists Created: {artist_count}'))
+        self.stdout.write(self.style.SUCCESS(f'Total Songs: {song_count}, Albums: {album_count}'))
