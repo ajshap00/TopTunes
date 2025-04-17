@@ -1,10 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError
-from .models import Artist, Vote, Song, Album
-from .VoteForm import VoteForm
+from .models import Artist, Vote
 from .data import get_data
-from django.db.models import Q
 
 def home_page(request):
     return render(request, 'poll/artist_page.html')
@@ -23,46 +21,43 @@ def search_results(request):
 
     return JsonResponse({'artists': artist_data})
 
-
-from django.shortcuts import get_object_or_404, redirect, render
-from django.http import HttpResponse
-from django.db import IntegrityError
-from .models import Artist, Vote
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.db import IntegrityError
-from .models import Artist, Vote  # Ensure you import your models
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]  # in case of multiple IPs
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def vote_page(request):
     if request.method == "POST":
         artist_id = request.POST.get('artist_id')
-
-        # Check if artist_id is provided
         if not artist_id:
             return HttpResponse("No artist ID provided.")
 
-        try:
-            # Fetch the artist or return a 404 if not found
-            artist = get_object_or_404(Artist, id=artist_id)
-            
-            # Create and save a new Vote
-            vote = Vote(artist=artist)
-            vote.save()
+        ip_address = get_client_ip(request)
 
-            # Increment the artist's vote count
+        # Check if this IP has already voted
+        if Vote.objects.filter(ip_address=ip_address).exists():
+            return render(request, 'poll/voted.html', {
+                'has_voted': True,
+                'top_artists': get_artist_votes()[0],
+                'bot_artists': get_artist_votes()[1],
+            })
+
+        try:
+            artist = get_object_or_404(Artist, id=artist_id)
+            vote = Vote(artist=artist, ip_address=ip_address)
+            vote.save()
             artist.votes += 1
             artist.save()
-
-            # Redirect to the results page after successful voting
             return redirect('poll:results')
         except IntegrityError:
             return HttpResponse("Error recording vote. Please try again.")
 
-    # Handle GET request: Render the voting page with artists
+    # GET request
     artists = Artist.objects.all().order_by('name')
     return render(request, 'poll/vote.html', {'artists': artists})
-
 
 def voted_page(request):
     top_artists, bot_artists = get_artist_votes()

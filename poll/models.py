@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.text import slugify
-from .data import get_data
     
 
 class Artist(models.Model):
@@ -21,11 +20,8 @@ class Artist(models.Model):
 
 class Vote(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, related_name='artist_votes')
-    #user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes') WIP
     vote_text = models.CharField(max_length=200, blank=True, null=True)
-
-    #class Meta:
-    #    unique_together = ('artist', 'user') WIP
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
 
     def __str__(self):
         return self.vote_text or "No comment"
