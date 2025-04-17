@@ -24,5 +24,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('poll/', include(('poll.urls', 'poll'), namespace='poll')),
-    path('', views.home_page, name='home'),
+    path('', views.artist_page, name='home'),
 ]
