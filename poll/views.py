@@ -7,7 +7,7 @@ from .data import get_data
 from django.db.models import Q
 
 def home_page(request):
-    return render(request, 'poll/artist_paage.html')
+    return render(request, 'poll/artist_page.html')
 
 def search_results(request):
     query = request.GET.get('query', '')
